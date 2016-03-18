@@ -2,5 +2,5 @@
 
 mkdir -p build
 pushd build
-c++ ../code/sdl_handmade.cpp -o SnowWolf
+c++ ../code/sdl_SnowWolf.cpp -o SnowWolf
 popd
