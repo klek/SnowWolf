@@ -2,6 +2,14 @@
 
 int main(int argc, char *argv[])
 {
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "SnowWolf", "This is SnowWolf", 0);
+	// Initializing SDL video
+	if ( SDL_Init(SDL_INIT_VIDEO) != 0 ) 
+	{
+		// TODO: Handle if SDL_Init fails
+	}
+
+
+	// Shutdown SDL before we quit
+	SDL_Quit();
 	return 0;
 }
