@@ -8,6 +8,8 @@
 #define local_persist static
 #define global_variable static
 
+#define MAX_CONTROLLERS 4
+
 // Typedefs
 typedef int8_t int8;
 typedef int16_t int16;
@@ -38,7 +40,8 @@ struct sdl_window_dimension
 
 // Global variables
 global_variable sdl_offscreen_buffer globalBackBuffer;
-
+global_variable SDL_GameController *controllerHandles[MAX_CONTROLLERS];
+global_variable SDL_Haptic *rumbleHandles[MAX_CONTROLLERS];
 
 // Function to get the dimensions of the current window
 sdl_window_dimension
@@ -144,6 +147,90 @@ bool handleEvent(SDL_Event * Event)
       shouldQuit = true;
     } break;
 
+    case SDL_KEYDOWN:
+    {
+
+    }
+
+    case SDL_KEYUP:
+    {
+      SDL_Keycode keyCode = Event->key.keysym.sym;
+      bool isDown = (Event->key.state == SDL_PRESSED);
+      bool wasDown = false;
+
+      if ( Event->key.state == SDL_RELEASED )
+      {
+	wasDown = true;
+      }
+      else if ( Event->key.repeat != 0 )
+      {
+	wasDown = true;
+      }
+
+      // Note:
+      if ( Event->key.repeat == 0 )
+      {
+	if ( keyCode == SDLK_w )
+	{
+	  printf("W \n");
+	}
+	else if ( keyCode == SDLK_a )
+	{
+	}
+	else if ( keyCode == SDLK_s )
+	{
+	}
+	else if ( keyCode == SDLK_d )
+	{
+	}
+	else if ( keyCode == SDLK_q )
+	{
+	}
+	else if ( keyCode == SDLK_e )
+	{
+	}
+	else if ( keyCode == SDLK_UP )
+	{
+	}
+	else if ( keyCode == SDLK_LEFT )
+	{
+	}
+	else if ( keyCode == SDLK_DOWN )
+	{
+	}
+	else if ( keyCode == SDLK_RIGHT )
+	{
+	}
+	else if ( keyCode == SDLK_ESCAPE )
+	{
+	  printf("ESCAPE: ");
+	  if ( isDown )
+	  {
+	    printf("is down \n");
+	  }
+	  if ( wasDown )
+	  {
+	    printf("was down \n");
+	  }
+
+	  // If escape is pressed we also stop the program
+	  // by simply putting a new event onto the queue
+	  //SDL_Event userEvent;
+	  //userEvent.type = SDL_QUIT;
+	  //SDL_PushEvent(&userEvent);
+
+	  // Note: Stop the program from running can also be done
+	  // by simply setting the shouldQuit to true
+	  shouldQuit = true;
+	}
+	else if ( keyCode == SDLK_SPACE )
+	{
+	}
+
+      }
+      
+    } break;
+    
     case SDL_WINDOWEVENT:
     {
       switch(Event->window.event)
@@ -175,17 +262,68 @@ bool handleEvent(SDL_Event * Event)
   return(shouldQuit);
 }
 
+// Function to open game controllers
+internal void
+SDLOpenGameControllers(void)
+{
+  int maxJoysticks = SDL_NumJoysticks();
+  int controllerIndex = 0;
+
+  for ( int joystickIndex = 0; joystickIndex < maxJoysticks; ++joystickIndex)
+  {
+    if ( !SDL_IsGameController(joystickIndex) )
+    {
+      continue;
+    }
+    if ( controllerIndex >= MAX_CONTROLLERS )
+    {
+      break;
+    }
+
+    controllerHandles[controllerIndex] = SDL_GameControllerOpen(joystickIndex);
+    rumbleHandles[controllerIndex] = SDL_HapticOpen(joystickIndex);
+
+    if ( rumbleHandles[controllerIndex] &&
+	 SDL_HapticRumbleInit(rumbleHandles[controllerIndex]) != 0)
+    {
+      SDL_HapticClose(rumbleHandles[controllerIndex]);
+      rumbleHandles[controllerIndex] = 0;
+    }
+
+    controllerIndex++;
+  }
+}
+
+// Function for closing game controllers
+internal void
+SDLCloseGameControllers(void)
+{
+  for ( int controllerIndex = 0; controllerIndex < MAX_CONTROLLERS; ++controllerIndex )
+  {
+    if ( controllerHandles[controllerIndex] )
+    {
+      if ( rumbleHandles[controllerIndex] )
+      {
+	SDL_HapticClose(rumbleHandles[controllerIndex]);
+      }
+      SDL_GameControllerClose(controllerHandles[controllerIndex]);
+    }
+  }
+}
+
 int main(int argc, char *argv[])
 {
 	// Previously used messagebox for SDL
 //	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "SnowWolf", "This is SnowWolf", 0);
 
 
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		// Todo: SDL_Init didn't work!
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) != 0) {
 		fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
 		return 1;
 	}
+
+	// Initializing game controllers
+	SDLOpenGameControllers();
 
 	// Setting up the SDL window
 	SDL_Window *window = SDL_CreateWindow("SnowWolf",
@@ -219,11 +357,68 @@ int main(int argc, char *argv[])
 		  running = false;
 		}
 	      }
+
+	      // Poll the controllers for input
+	      for ( int controllerIndex = 0; controllerIndex < MAX_CONTROLLERS; ++controllerIndex)
+	      {
+		if ( controllerHandles[controllerIndex] != 0 &&
+		     SDL_GameControllerGetAttached(controllerHandles[controllerIndex]) )
+		{
+		  // Note: We have a controlelr with index controllerIndex
+		  bool up = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							SDL_CONTROLLER_BUTTON_DPAD_UP);
+		  bool down = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							  SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+		  bool left = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							  SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+		  bool right = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							   SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
+		  bool start = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							   SDL_CONTROLLER_BUTTON_START);
+		  bool back = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							  SDL_CONTROLLER_BUTTON_BACK);
+		  bool leftShoulder = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+								  SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		  bool rightShoulder = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+								   SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+		  bool aButton = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							     SDL_CONTROLLER_BUTTON_A);		  
+		  bool bButton = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							     SDL_CONTROLLER_BUTTON_B);
+		  bool xButton = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							     SDL_CONTROLLER_BUTTON_X);
+		  bool yButton = SDL_GameControllerGetButton(controllerHandles[controllerIndex],
+							  SDL_CONTROLLER_BUTTON_Y);
+
+		  int16 stickX = SDL_GameControllerGetAxis(controllerHandles[controllerIndex],
+							   SDL_CONTROLLER_AXIS_LEFTX);
+		  int16 stickY = SDL_GameControllerGetAxis(controllerHandles[controllerIndex],
+							   SDL_CONTROLLER_AXIS_LEFTY);
+
+		  if (aButton)
+		  {
+		    yOffset += 2;
+		  }
+		  if (bButton)
+		  {
+		    if ( rumbleHandles[controllerIndex] )
+		    {
+		      SDL_HapticRumblePlay(rumbleHandles[controllerIndex], 0.5f, 2000);
+		    }
+		  }
+		  
+		}
+		else
+		{
+		  // Todo:  This controller isn't plugged in
+		}
+	      }
+	      
 	      RenderWeirdGradient(&globalBackBuffer, xOffset, yOffset);
 	      SDLUpdateWindow(window, renderer, globalBackBuffer);
 
 	      ++xOffset;
-	      yOffset += 2;
+	      //	      yOffset += 2;
 	    }
 	  }
 	  else
