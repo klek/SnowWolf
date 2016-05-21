@@ -3,17 +3,6 @@
 
 int main(int argc, char *argv[])
 {
-<<<<<<< HEAD
-	// Initializing SDL video
-	if ( SDL_Init(SDL_INIT_VIDEO) != 0 ) 
-	{
-		// TODO: Handle if SDL_Init fails
-	}
-
-
-	// Shutdown SDL before we quit
-	SDL_Quit();
-=======
 	// Previously used messagebox for SDL
 //	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "SnowWolf", "This is SnowWolf", 0);
 
@@ -39,6 +28,5 @@ int main(int argc, char *argv[])
 	// Shutdown SDL
 	SDL_Quit();
 
->>>>>>> 6a7d21da601beb2d2b41ff93bef0d605624bc6b4
 	return 0;
 }
