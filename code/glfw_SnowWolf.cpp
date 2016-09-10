@@ -1,17 +1,58 @@
+/*******************************************************************
+   $File:    glfw_SnowWolf.h
+   $Date:    Sat, 10 Sep 2016: 16:32
+   $Version: 
+   $Author:  klek 
+   $Notes:   
+********************************************************************/
+
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "window.h"
+
+
+
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
 }
+
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
+
 int main(void)
 {
+    Window window("klek testing", 800, 600);
+
+    // Add a color to the window to check for GL
+    glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
+
+    // Print out our GL verison
+    std::cout << glGetString(GL_VERSION) << std::endl;
+
+    
+    // Main loop 
+    while ( !window.closed() ) {
+        window.clear();
+        // Draw a rectangle
+        glBegin(GL_QUADS);
+        glVertex2f(-0.5f, -0.5f);
+        glVertex2f(-0.5f, 0.5f);
+        glVertex2f(0.5f, 0.5f);
+        glVertex2f(0.5f, -0.5f);
+        glEnd();
+        window.update();
+    }
+
+    return 0;
+
+
+/*  Old Method for triangle
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
@@ -52,4 +93,6 @@ int main(void)
     glfwDestroyWindow(window);
     glfwTerminate();
     exit(EXIT_SUCCESS);
+
+*/
 }
