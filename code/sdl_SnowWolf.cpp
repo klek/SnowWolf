@@ -470,7 +470,7 @@ int main(int argc, char *argv[])
 	    // Note: Testing sound
 	    sdl_sound_output soundOutput = {};
 	    soundOutput.samplesPerSecond = 48000;
-	    soundOutput.toneHz = 256;
+	    soundOutput.toneHz = 440;
 	    soundOutput.toneVolume = 5000;
 	    soundOutput.runningSampleIndex = 0;
 	    soundOutput.wavePeriod = soundOutput.samplesPerSecond / soundOutput.toneHz;
