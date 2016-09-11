@@ -41,6 +41,12 @@ int main(void)
     // Main loop 
     while ( !window.closed() ) {
         window.clear();
+        double x, y;
+        
+        window.getMousePosition(x,y);
+
+        std::cout << x << ", " << y << std::endl;
+        
 #if 0
         // Draw a rectangle
         glBegin(GL_QUADS);

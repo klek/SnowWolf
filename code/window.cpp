@@ -8,6 +8,7 @@
 
 #include "window.h"
 
+
 // Constructor for the window class
 Window::Window(const char *name, int width, int height)
 {
@@ -18,6 +19,15 @@ Window::Window(const char *name, int width, int height)
     // Check if the init function worked
     if ( !init() ) {
         glfwTerminate();
+    }
+
+    // Initialize the m_Keys array
+    for (int i = 0; i < MAX_KEYS; i++) {
+        m_Keys[i] = false;
+    }
+    // Initialize the m_MouseButtons array
+    for (int i = 0; i < MAX_BUTTONS; i++) {
+        m_MouseButtons[i] = false;
     }
     
 }
@@ -47,6 +57,33 @@ void Window::update() const
     glfwSwapBuffers(m_Window);
 }
 
+bool Window::isKeyPressed(unsigned int keyCode) const
+{
+    // TODO(klek): Insert logging here
+    if ( keyCode >= MAX_KEYS ) {
+        return false;
+    }
+
+    return m_Keys[keyCode];
+}
+
+bool Window::isMouseButtonPressed(unsigned int mouseButton) const
+{
+    // TODO(klek): Insert logging here
+    if ( mouseButton >= MAX_BUTTONS ) {
+        return false;
+    }
+
+    return m_MouseButtons[mouseButton];
+}
+
+void Window::getMousePosition(double &xpos, double &ypos) const
+{
+    xpos = m_MouseX;
+    ypos = m_MouseY;
+}
+
+
 bool Window::init()
 {
     // Init the glfw
@@ -69,7 +106,13 @@ bool Window::init()
     }
     // Make the our m_Window the current context
     glfwMakeContextCurrent(m_Window);
-    glfwSetWindowSizeCallback(m_Window, windowResize);
+    glfwSetWindowUserPointer(m_Window, this);
+
+    // Set up callbacks
+    glfwSetWindowSizeCallback(m_Window, window_resize);
+    glfwSetKeyCallback(m_Window, key_callback);
+    glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
+    glfwSetCursorPosCallback(m_Window, cursor_position_callback);
 
     // Start GLEW
     if ( glewInit() != GLEW_OK )
@@ -88,7 +131,39 @@ bool Window::init()
     return true;
 }
 
-void windowResize(GLFWwindow *window, int width, int height)
+// Callback function for keyboard keys
+void Window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    // Get the pointer to this class
+    Window *win = (Window *) glfwGetWindowUserPointer(window);
+
+    // Set the index of our array to true if the key isn't released
+    win->m_Keys[key] = (action != GLFW_RELEASE);
+}
+
+// Callback function for mouse buttons
+void Window::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    // Get the pointer to this class
+    Window *win = (Window *) glfwGetWindowUserPointer(window);
+
+    // Set the index of our array to true if the key isn't released
+    win->m_MouseButtons[button] = (action != GLFW_RELEASE);
+    
+}
+
+void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    // Get the pointer to this class
+    Window *win = (Window *) glfwGetWindowUserPointer(window);
+
+    // Set the positions of the mouse cursor
+    win->m_MouseX = xpos;
+    win->m_MouseY = ypos;
+}
+
+
+void window_resize(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
