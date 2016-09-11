@@ -13,7 +13,7 @@
 #include <stdio.h>
 
 #include "window.h"
-
+#include "maths/vec2.h"
 
 
 static void error_callback(int error, const char* description)
@@ -37,15 +37,21 @@ int main(void)
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
-        
+
+
+    // BUG?? Why is a == b true after this?  
+    vec2 b(1.0f, 2.0f);
+    vec2 vector2(1.0f, 2.0f);
+    vec2 a = b + vector2;
+
+
+    std::cout << "a = " << a << std::endl;
+    std::cout << "b = " << b << std::endl;
+    std::cout << (a == b) << std::endl;
+
     // Main loop 
     while ( !window.closed() ) {
         window.clear();
-        double x, y;
-        
-        window.getMousePosition(x,y);
-
-        std::cout << x << ", " << y << std::endl;
         
 #if 0
         // Draw a rectangle
