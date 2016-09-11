@@ -71,6 +71,19 @@ bool Window::init()
     glfwMakeContextCurrent(m_Window);
     glfwSetWindowSizeCallback(m_Window, windowResize);
 
+    // Start GLEW
+    if ( glewInit() != GLEW_OK )
+    {
+        // TODO(klek): Insert logger here instead
+        std::cout << "Failed to initialize GLEW" << std::endl;
+        return false;
+    }
+
+    
+    // Print out our GL verison
+    // TODO(klek): Print it to logger instead.
+    std::cout << "OpenGL version "<< glGetString(GL_VERSION) << std::endl;
+
     // If everything worked so far
     return true;
 }

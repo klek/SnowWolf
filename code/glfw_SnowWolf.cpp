@@ -6,6 +6,8 @@
    $Notes:   
 ********************************************************************/
 
+#include <GL/glew.h>
+//#include <GL/glut.h>
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,13 +34,14 @@ int main(void)
     // Add a color to the window to check for GL
     glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 
-    // Print out our GL verison
-    std::cout << glGetString(GL_VERSION) << std::endl;
-
-    
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+        
     // Main loop 
     while ( !window.closed() ) {
         window.clear();
+#if 0
         // Draw a rectangle
         glBegin(GL_QUADS);
         glVertex2f(-0.5f, -0.5f);
@@ -46,6 +49,8 @@ int main(void)
         glVertex2f(0.5f, 0.5f);
         glVertex2f(0.5f, -0.5f);
         glEnd();
+#endif
+        glDrawArrays(GL_ARRAY_BUFFER, 0, 6);
         window.update();
     }
 
