@@ -48,12 +48,13 @@ int main(void)
     std::cout << "a = " << a << std::endl;
     std::cout << "b = " << b << std::endl;
     std::cout << (a == b) << std::endl;
+    std::cout << (a != b) << std::endl;
 
     // Main loop 
     while ( !window.closed() ) {
         window.clear();
         
-#if 0
+#if 1
         // Draw a rectangle
         glBegin(GL_QUADS);
         glVertex2f(-0.5f, -0.5f);
@@ -61,8 +62,9 @@ int main(void)
         glVertex2f(0.5f, 0.5f);
         glVertex2f(0.5f, -0.5f);
         glEnd();
-#endif
+#elif
         glDrawArrays(GL_ARRAY_BUFFER, 0, 6);
+#endif
         window.update();
     }
 
