@@ -13,7 +13,7 @@
 #include <stdio.h>
 
 #include "window.h"
-#include "maths/vec2.h"
+#include "maths/math.h"
 
 
 static void error_callback(int error, const char* description)
