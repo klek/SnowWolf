@@ -65,22 +65,22 @@ vec4& vec4::divide(const vec4& other)
 }
 
 // Maths operator overloading
-vec4& operator+(vec4 left, const vec4& right)
+vec4 operator+(vec4 left, const vec4& right)
 {
     return left.add(right);
 }
 
-vec4& operator-(vec4 left, const vec4& right)
+vec4 operator-(vec4 left, const vec4& right)
 {
     return left.subtract(right);
 }
 
-vec4& operator*(vec4 left, const vec4& right)
+vec4 operator*(vec4 left, const vec4& right)
 {
     return left.multiply(right);
 }
 
-vec4& operator/(vec4 left, const vec4& right)
+vec4 operator/(vec4 left, const vec4& right)
 {
     return left.divide(right);
 }

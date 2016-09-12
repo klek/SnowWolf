@@ -24,10 +24,10 @@ struct vec4
     vec4& divide(const vec4& other);
 
     // Math operators overloaded
-    friend vec4& operator+(vec4 left, const vec4& right);
-    friend vec4& operator-(vec4 left, const vec4& right);
-    friend vec4& operator*(vec4 left, const vec4& right);
-    friend vec4& operator/(vec4 left, const vec4& right);
+    friend vec4 operator+(vec4 left, const vec4& right);
+    friend vec4 operator-(vec4 left, const vec4& right);
+    friend vec4 operator*(vec4 left, const vec4& right);
+    friend vec4 operator/(vec4 left, const vec4& right);
 
     vec4& operator+=(const vec4& other);
     vec4& operator-=(const vec4& other);
