@@ -25,7 +25,7 @@ struct mat4
     mat4& multiply(const mat4& other);
     friend mat4 operator*(mat4 left, const mat4& right);
     mat4& operator*=(const mat4& other);
-
+    
     static mat4 orthographic(float left, float right, float bottom, float top, float near, float far);
     static mat4 perspective(float fov, float aspectRatio, float near, float far);
 
