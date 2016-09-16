@@ -10,12 +10,17 @@
 #define MAT4_H
 
 #include "math.h"
+#include "vec4.h"
 
 #define FOUR_BY_FOUR (4 * 4)
 
 struct mat4
 {
-    float elements[FOUR_BY_FOUR];
+    union {
+        float elements[FOUR_BY_FOUR];
+        vec4 columns[FOUR_BY_FOUR/FOUR_BY_FOUR];
+        vec4 rows[FOUR_BY_FOUR/FOUR_BY_FOUR];
+    };
 
     mat4();
     mat4(float diagonal);

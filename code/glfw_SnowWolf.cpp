@@ -14,17 +14,12 @@
 
 #include "window.h"
 #include "maths/math.h"
-
+#include "utils/fileutils.h"
+#include <string.h>
 
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
-}
-
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
 int main(void)
@@ -38,7 +33,9 @@ int main(void)
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    mat4 position = mat4::translation(vec3(2, 3, 4));
+    std::string file = read_file("../code/glfw_SnowWolf.cpp");
+
+    std::cout << file << std::endl;
 
     // Main loop 
     while ( !window.closed() ) {
