@@ -3,7 +3,7 @@
 SRCDIR="../code"
 SRC="$SRCDIR/glfw_SnowWolf.cpp $SRCDIR/window.cpp"
 MATHSDIR="../code/maths"
-MATHSRC="$MATHSDIR/vec2.cpp $MATHSDIR/vec3.cpp $MATHSDIR/vec4.cpp"
+MATHSRC="$MATHSDIR/vec2.cpp $MATHSDIR/vec3.cpp $MATHSDIR/vec4.cpp $MATHSDIR/mat4.cpp $MATHSDIR/maths_func.cpp"
 
 
 

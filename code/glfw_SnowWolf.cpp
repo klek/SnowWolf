@@ -38,17 +38,7 @@ int main(void)
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-
-    // BUG?? Why is a == b true after this?  
-    vec2 b(1.0f, 2.0f);
-    vec2 vector2(1.0f, 2.0f);
-    vec2 a = b + vector2;
-
-
-    std::cout << "a = " << a << std::endl;
-    std::cout << "b = " << b << std::endl;
-    std::cout << (a == b) << std::endl;
-    std::cout << (a != b) << std::endl;
+    mat4 position = mat4::translation(vec3(2, 3, 4));
 
     // Main loop 
     while ( !window.closed() ) {
