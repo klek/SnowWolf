@@ -1,5 +1,5 @@
 /*******************************************************************
-   $File:    maths_func.h
+   $File:    maths_func.cpp
    $Date:    Fri, 16 Sep 2016: 13:28
    $Version: 
    $Author:  klek 

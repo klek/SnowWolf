@@ -1,5 +1,5 @@
 /*******************************************************************
-   $File:    window.h
+   $File:    window.cpp
    $Date:    Sat, 10 Sep 2016: 16:34
    $Version: 
    $Author:  klek 

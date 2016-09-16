@@ -1,5 +1,5 @@
 /*******************************************************************
-   $File:    glfw_SnowWolf.h
+   $File:    glfw_SnowWolf.cpp
    $Date:    Sat, 10 Sep 2016: 16:32
    $Version: 
    $Author:  klek 
@@ -11,11 +11,12 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "window.h"
+#include "graphics/window.h"
+#include "graphics/shader.h"
 #include "maths/math.h"
 #include "utils/fileutils.h"
-#include <string.h>
 
 static void error_callback(int error, const char* description)
 {
@@ -29,29 +30,31 @@ int main(void)
     // Add a color to the window to check for GL
     glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
 
-    std::string file = read_file("../code/glfw_SnowWolf.cpp");
+    GLfloat vertices[] =
+        {
+            -0.5f, -0.5f, 0.0f,
+            -0.5f,  0.5f, 0.0f,
+             0.5f,  0.5f, 0.0f,
+             0.5f,  0.5f, 0.0f,
+             0.5f, -0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f
+        };
 
-    std::cout << file << std::endl;
-
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
+    
+    Shader shader("../shaders/basic.vert", "../shaders/basic.frag");
+    shader.enable();
+    
     // Main loop 
     while ( !window.closed() ) {
         window.clear();
-        
-#if 1
-        // Draw a rectangle
-        glBegin(GL_QUADS);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(-0.5f, 0.5f);
-        glVertex2f(0.5f, 0.5f);
-        glVertex2f(0.5f, -0.5f);
-        glEnd();
-#elif
-        glDrawArrays(GL_ARRAY_BUFFER, 0, 6);
-#endif
+        glDrawArrays(GL_TRIANGLES, 0, 6);
         window.update();
     }
 
