@@ -53,6 +53,12 @@ void Window::clear() const
 // Update() will poll events and swap buffers
 void Window::update() const
 {
+    GLenum error = glGetError();
+    if ( error != GL_NO_ERROR ) {
+        // TODO(klek): Insert logger here
+        std::cout << "OpenGL Error: " << error << std::endl;
+    }
+    
     glfwPollEvents();
     glfwSwapBuffers(m_Window);
 }
