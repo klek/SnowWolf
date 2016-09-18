@@ -32,12 +32,12 @@ int main(void)
 
     GLfloat vertices[] =
         {
-            -0.5f, -0.5f, 0.0f,
-            -0.5f,  0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f
+            0, 0, 0,
+            8, 0, 0,
+            0, 3, 0,
+            0, 3, 0,
+            8, 3, 0,
+            8, 0, 0
         };
 
     // Create a Vector Buffer Object that will store the vertices on video memory
@@ -53,10 +53,18 @@ int main(void)
     glEnableVertexAttribArray(0);
     std::cout << glGetError() << std::endl;
 
+    mat4 ortho = mat4::orthographic(0.0f, 16.0f, 0.0f, 9.0f, -1.0f, 1.0f);
+    
     // Read in the shader
     Shader shader("../shaders/basic.vert", "../shaders/basic.frag");
     shader.enable();
 
+    shader.setUniformMat4("pr_matrix", ortho);
+    shader.setUniformMat4("ml_matrix", mat4::translation(vec3(4, 3, 0)));
+
+    shader.setUniform2f("light_pos", vec2(4.5f, 1.5f));
+    shader.setUniform4f("colour", vec4(0.2f, 0.3f, 0.8f, 1.0f));
+    
     // Main loop 
     while ( !window.closed() ) {
         window.clear();
