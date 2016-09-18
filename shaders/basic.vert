@@ -9,5 +9,5 @@ uniform mat4 ml_matrix = mat4(1.0);
 
 void main()
 {
-	/*gl_Position = pr_matrix **/ position;
+	gl_Position = /*pr_matrix **/ position;
 }

@@ -28,8 +28,7 @@ int main(void)
     Window window("klek testing", 800, 600);
 
     // Add a color to the window to check for GL
-    glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
-
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
     GLfloat vertices[] =
         {
@@ -41,20 +40,32 @@ int main(void)
             -0.5f, -0.5f, 0.0f
         };
 
+    // Create a Vector Buffer Object that will store the vertices on video memory
     GLuint vbo;
     glGenBuffers(1, &vbo);
+
+    // Allocate space and upload data from CPU to GPU
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    std::cout << "Do I get error here? " << glGetError() << std::endl;
     glEnableVertexAttribArray(0);
-    
+    std::cout << glGetError() << std::endl;
+
+    // Read in the shader
     Shader shader("../shaders/basic.vert", "../shaders/basic.frag");
     shader.enable();
-    
+
     // Main loop 
     while ( !window.closed() ) {
         window.clear();
         glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        if ( glGetError() != GL_NO_ERROR ) {
+            std::cout << "Error occured" << std::endl;
+            return 0;
+        }
         window.update();
     }
 

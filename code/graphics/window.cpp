@@ -47,7 +47,7 @@ bool Window::closed() const
 // Clear the current window
 void Window::clear() const
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT );/*| GL_DEPTH_BUFFER_BIT);*/
 }
 
 // Update() will poll events and swap buffers
@@ -93,7 +93,8 @@ bool Window::init()
         std::cout << "Failed to initialize GLFW" << std::endl;
         return false;
     }
-
+    
+    // Create a window
     m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
 
     // Check if window got something

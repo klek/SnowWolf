@@ -13,6 +13,6 @@ UTILSCR="$UTILS/fileutils.cpp"
 mkdir -p ../build
 pushd ../build
 g++ ../code/sdl_SnowWolf.cpp -o SnowWolf -g `sdl2-config --cflags --libs`
-g++ $MATHSRC $UTILSCR $GRAPHSRC $SRC -o SnowWolf_glfw -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -ldl \
--lXinerama -lXcursor -lGLEW
+g++ $MATHSRC $UTILSCR $GRAPHSRC $SRC -o SnowWolf_glfw -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
+    -ldl -lXinerama -lXcursor -lGLEW
 popd

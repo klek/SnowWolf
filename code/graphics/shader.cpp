@@ -20,7 +20,7 @@ Shader::~Shader()
     glDeleteProgram(m_Id);
 }
 
-GLuint Shader::getShaderId() const
+const GLuint Shader::getShaderId() const
 {
     return m_Id;
 }

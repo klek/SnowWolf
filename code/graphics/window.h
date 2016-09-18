@@ -13,6 +13,7 @@
 #include <GL/glew.h>
 //#include <GL/glut.h>
 #include <GLFW/glfw3.h>
+//#include <GL/glfw.h>
 
 // Macros
 #define MAX_KEYS 1024

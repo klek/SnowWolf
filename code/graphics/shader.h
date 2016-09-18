@@ -27,7 +27,7 @@ public:
     Shader(const char* vertPath, const char* fragPath);
     ~Shader();
 
-    GLuint getShaderId() const;
+    const GLuint getShaderId() const;
     
     void enable() const;
     void disable() const;
