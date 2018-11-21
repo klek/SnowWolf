@@ -32,7 +32,7 @@ int main(void)
     Window window("klek testing", 960, 540);
 
     // Add a color to the window to check for GL
-    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 #if 0
     GLfloat vertices[] =
@@ -97,12 +97,16 @@ int main(void)
     sprite2.addBuffer(new Buffer(colorsB, 4 * 4, 4), 1);
 #endif
 
-
-    
     mat4 ortho = mat4::orthographic(0.0f, 16.0f, 0.0f, 9.0f, -1.0f, 1.0f);
+    
+    // Debugging
+    std::cout << "We could apparently make a window" << std::endl;
     
     // Read in the shader
     Shader shader("../shaders/basic.vert", "../shaders/basic.frag");
+    // Debugging
+    std::cout << "Passed the reading of the shader" << std::endl;
+    
     shader.enable();
 
     shader.setUniformMat4("pr_matrix", ortho);
@@ -110,7 +114,7 @@ int main(void)
 
     shader.setUniform2f("light_pos", vec2(4.5f, 1.5f));
     shader.setUniform4f("colour", vec4(0.2f, 0.3f, 0.8f, 1.0f));
-    
+
     // Main loop 
     while ( !window.closed() ) {
         window.clear();

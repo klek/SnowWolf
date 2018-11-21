@@ -11,7 +11,7 @@
 
 std::string read_file(const char* filepath)
 {
-    FILE* file = fopen(filepath, "r");
+    FILE* file = fopen(filepath, "rt");
 
     // Test if the fileopen worked
     if ( file != NULL ) {
@@ -38,7 +38,7 @@ std::string read_file(const char* filepath)
         return result;
     }
     // TODO(klek): Insert logger here
-    std::cout << "Failed to open file, " << filepath << "!" << std::endl;
+    std::cout << "Failed to open file, \"" << filepath << "\"!" << std::endl;
     return NULL;
 
 }

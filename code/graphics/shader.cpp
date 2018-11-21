@@ -77,10 +77,16 @@ GLuint Shader::load()
     GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
 
+    // Debugging
+    std::cout << "glCreateProgram worked including glCreateShader" << std::endl;
+
     // Read the shaders
     std::string vertSource = read_file(m_VertPath);
     std::string fragSource = read_file(m_FragPath);
 
+    // Debugging
+    std::cout << "Loaded the files" << std::endl;
+    
     // Grab
     const char* vertSourceString = vertSource.c_str();
     const char* fragSourceString = fragSource.c_str();

@@ -17,4 +17,6 @@ pushd ../build
 g++ ../code/sdl_SnowWolf.cpp -o SnowWolf -g `sdl2-config --cflags --libs`
 g++ $MATHSRC $UTILSCR $GRAPHSRC $BUFFERSRC $SRC -o SnowWolf_glfw -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
     -ldl -lXinerama -lXcursor -lGLEW
+#x86_64-w64-mingw32-g++ $MATHSRC $UTILSCR $GRAPHSRC $BUFFERSRC $SRC -o SnowWolf_glfw.exe -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
+#    -ldl -lXinerama -lXcursor -lGLEW
 popd
