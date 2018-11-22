@@ -3,7 +3,7 @@
 SRCDIR="../code"
 SRC="$SRCDIR/glfw_SnowWolf.cpp"
 GRAPHDIR="$SRCDIR/graphics"
-GRAPHSRC="$GRAPHDIR/window.cpp $GRAPHDIR/shader.cpp"
+GRAPHSRC="$GRAPHDIR/window.cpp $GRAPHDIR/shader.cpp $GRAPHDIR/renderable2d.cpp $GRAPHDIR/simple2drenderer.cpp $GRAPHDIR/renderer2d.cpp"
 BUFFERSDIR="$GRAPHDIR/buffers"
 BUFFERSRC="$BUFFERSDIR/indexBuffer.cpp $BUFFERSDIR/buffer.cpp $BUFFERSDIR/vertexArray.cpp"
 MATHSDIR="$SRCDIR/maths"

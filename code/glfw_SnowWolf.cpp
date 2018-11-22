@@ -21,6 +21,9 @@
 #include "graphics/buffers/buffer.h"
 #include "graphics/buffers/indexBuffer.h"
 #include "graphics/buffers/vertexArray.h"
+#include "graphics/renderer2d.h"
+#include "graphics/simple2drenderer.h"
+
 
 static void error_callback(int error, const char* description)
 {
@@ -98,20 +101,23 @@ int main(void)
 #endif
 
     mat4 ortho = mat4::orthographic(0.0f, 16.0f, 0.0f, 9.0f, -1.0f, 1.0f);
-    
+
     // Debugging
-    std::cout << "We could apparently make a window" << std::endl;
+//    std::cout << "We could apparently make a window" << std::endl;
     
     // Read in the shader
     Shader shader("../shaders/basic.vert", "../shaders/basic.frag");
     // Debugging
-    std::cout << "Passed the reading of the shader" << std::endl;
+//    std::cout << "Passed the reading of the shader" << std::endl;
     
     shader.enable();
-
     shader.setUniformMat4("pr_matrix", ortho);
     shader.setUniformMat4("ml_matrix", mat4::translation(vec3(4, 3, 0)));
 
+    Renderable2D sprite(vec3(5, 5, 0), vec2(4, 4), vec4(1, 0, 1, 1), shader);
+    Renderable2D sprite3(vec3(7, 1, 0), vec2(2, 3), vec4(0.2f, 0, 1, 1), shader);
+    Simple2DRenderer renderer;
+    
     shader.setUniform2f("light_pos", vec2(4.5f, 1.5f));
     shader.setUniform4f("colour", vec4(0.2f, 0.3f, 0.8f, 1.0f));
 
@@ -121,23 +127,11 @@ int main(void)
         double x, y;
         window.getMousePosition(x, y);
         shader.setUniform2f("light_pos", vec2((float)(x * 16.0f / 960.0f), (float)(9.0f - y * 9.0f / 540.0f)));
-#if 0
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-#else
-        sprite1.bind();
-        ibo.bind();
-        shader.setUniformMat4("ml_matrix", mat4::translation(vec3(4, 3, 0)));
-        glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_SHORT, 0);
-        ibo.unbind();
-        sprite1.unbind();
 
-        sprite2.bind();
-        ibo.bind();
-        shader.setUniformMat4("ml_matrix", mat4::translation(vec3(0, 0, 0)));
-        glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_SHORT, 0);
-        ibo.unbind();
-        sprite2.unbind();
-#endif
+        renderer.submit(&sprite);
+        renderer.submit(&sprite3);
+        renderer.flush();
+        
         window.update();
     }
 
