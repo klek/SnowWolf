@@ -11,6 +11,7 @@
 
 #include <deque>
 #include "renderer2d.h"
+#include "staticSprite.h"
 
 class Simple2DRenderer : public Renderer2D
 {
@@ -19,7 +20,7 @@ public:
     void flush() override;
 
 private:
-    std::deque<const Renderable2D*> m_RenderQueue;
+    std::deque<const StaticSprite*> m_RenderQueue;
 };
 
 #endif
