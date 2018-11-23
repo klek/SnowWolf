@@ -39,7 +39,7 @@ public:
         GLfloat vertices[] =
             {
                 0, 0, 0,
-                0, size.x, 0,
+                0, size.y, 0,
                 size.x, size.y, 0,
                 size.x, 0, 0
             };
