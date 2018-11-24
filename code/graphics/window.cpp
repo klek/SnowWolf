@@ -121,6 +121,9 @@ bool Window::init()
     glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
     glfwSetCursorPosCallback(m_Window, cursor_position_callback);
 
+    // Turn of V-sync limit
+    glfwSwapInterval(0.0);
+    
     // Start GLEW
     if ( glewInit() != GLEW_OK )
     {

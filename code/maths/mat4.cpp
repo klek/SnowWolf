@@ -45,6 +45,7 @@ mat4 mat4::identity()
  */
 mat4& mat4::multiply(const mat4& other)
 {
+    float data[16];
     // Row wise
     for (int y = 0; y < 4; y++) {
         // Column wise
@@ -56,9 +57,10 @@ mat4& mat4::multiply(const mat4& other)
                 // Multiplying column x row here
                 sum += elements[4 * e + x] * other.elements[4 * y + e];
             }
-            elements[4 * y + x] = sum;
+            data[4 * y + x] = sum;
         }
     }
+    memcpy(elements, data, 4 * 4 * sizeof(float));
 
     return *this;
 }

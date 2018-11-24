@@ -9,6 +9,8 @@
 #if !defined(MAT4_H)
 #define MAT4_H
 
+#include <cstring>
+
 #include "math.h"
 #include "vec4.h"
 

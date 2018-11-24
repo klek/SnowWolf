@@ -15,8 +15,12 @@ UTILSCR="$UTILS/fileutils.cpp"
 mkdir -p ../build
 pushd ../build
 g++ ../code/sdl_SnowWolf.cpp -o SnowWolf -g `sdl2-config --cflags --libs`
+# Building for debug -O0
 g++ $MATHSRC $UTILSCR $GRAPHSRC $BUFFERSRC $SRC -o SnowWolf_glfw -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
     -ldl -lXinerama -lXcursor -lGLEW
+# Building for release with -O2
+g++ $MATHSRC $UTILSCR $GRAPHSRC $BUFFERSRC $SRC -o SnowWolf_glfw_release -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
+    -ldl -lXinerama -lXcursor -lGLEW -O2
 #x86_64-w64-mingw32-g++ $MATHSRC $UTILSCR $GRAPHSRC $BUFFERSRC $SRC -o SnowWolf_glfw.exe -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
 #    -ldl -lXinerama -lXcursor -lGLEW
 popd

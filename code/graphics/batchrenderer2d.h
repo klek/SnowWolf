@@ -9,6 +9,8 @@
 #if !defined(BATCHRENDERER2D_H)
 #define BATCHRENDERER2D_H
 
+#include <cstddef>
+
 #include "renderer2d.h"
 //#include "renderable2d.h"
 #include "buffers/vertexArray.h"

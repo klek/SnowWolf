@@ -17,6 +17,7 @@
 #include "graphics/shader.h"
 #include "maths/math.h"
 #include "utils/fileutils.h"
+#include "utils/timer.h"
 
 #include "graphics/buffers/buffer.h"
 #include "graphics/buffers/indexBuffer.h"
@@ -28,6 +29,7 @@
 
 #include "graphics/staticSprite.h"
 #include "graphics/sprite.h"
+
 
 #include <time.h>
 
@@ -94,9 +96,18 @@ int main(void)
     shader.setUniform4f("colour", vec4(0.2f, 0.3f, 0.8f, 1.0f));
 
 //    std::cout << sizeof(vec3) << " VS " << sizeof(vec4) << std::endl;
+
+    Timer time;
+    float timer = 0;
+    unsigned int frames = 0;
     
     // Main loop 
     while ( !window.closed() ) {
+
+        mat4 mat = mat4::translation(vec3(5, 5, 5));
+        mat = mat * mat4::rotation(time.elapsed() * 50.0f, vec3(0, 0, 1));
+        mat = mat * mat4::translation(vec3(-5, -5, -5));
+        shader.setUniformMat4("ml_matrix", mat);
         window.clear();
         double x, y;
         window.getMousePosition(x, y);
@@ -113,8 +124,16 @@ int main(void)
 #endif
         renderer.flush();
 
-        printf("Sprites: %d\n", sprites.size());
         window.update();
+//        printf("Sprites: %d\n", sprites.size());
+        
+        frames++;
+        if ( time.elapsed() - timer > 1.0f )
+        {
+            timer += 1.0f;
+            printf("%d fps\n", frames);
+            frames = 0;
+        }
     }
 
     return 0;
