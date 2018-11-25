@@ -36,7 +36,6 @@ void Layer::add(Renderable2D *renderable)
 void Layer::render()
 {
     m_Shader->enable();
-
     m_Renderer->begin();
 
     // Submit each renderable to the renderer
@@ -46,7 +45,6 @@ void Layer::render()
     }
 
     m_Renderer->end();
-    
     // Flush everything
     m_Renderer->flush();
 //    m_Shader->disable();
