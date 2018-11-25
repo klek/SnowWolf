@@ -40,8 +40,8 @@ private:
 public:
     BatchRenderer2D();
     ~BatchRenderer2D();
-    void begin();
-    void end();
+    void begin() override;
+    void end() override;
     void submit(const Renderable2D *renderable) override;
     void flush() override;
 
