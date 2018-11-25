@@ -41,7 +41,8 @@ void Layer::render()
     // Submit each renderable to the renderer
     for ( const Renderable2D *renderable : m_Renderables)
     {
-        m_Renderer->submit(renderable);
+//        m_Renderer->submit(renderable);
+        renderable->submit(m_Renderer);
     }
 
     m_Renderer->end();

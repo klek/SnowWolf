@@ -9,9 +9,12 @@
 #if !defined(RENDERER2D_H)
 #define RENDERER2D_H
 
+#include <vector>
 #include <GL/glew.h>
 #include "../maths/math.h"
-#include "renderable2d.h"
+//#include "renderable2d.h"
+
+class Renderable2D;
 
 class Renderer2D
 {

@@ -7,6 +7,7 @@
 ********************************************************************/
 
 #include "simple2drenderer.h"
+//#include "renderable2d.h"
 
 // Function to simply push new items into the queue
 void Simple2DRenderer::submit(const Renderable2D *renderable)

@@ -11,8 +11,8 @@
 
 #include <cstddef>
 
-#include "renderer2d.h"
-//#include "renderable2d.h"
+//#include "renderer2d.h"
+#include "renderable2d.h"
 #include "buffers/vertexArray.h"
 #include "buffers/indexBuffer.h"
 

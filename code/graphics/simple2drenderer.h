@@ -10,7 +10,8 @@
 #define SIMPLE2DRENDERER_H
 
 #include <deque>
-#include "renderer2d.h"
+//#include "renderer2d.h"
+#include "renderable2d.h"
 #include "staticSprite.h"
 
 class Simple2DRenderer : public Renderer2D

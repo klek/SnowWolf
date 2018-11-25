@@ -13,6 +13,7 @@
 #include "buffers/indexBuffer.h"
 #include "buffers/vertexArray.h"
 #include "shader.h"
+#include "renderer2d.h"
 
 #include "../maths/math.h"
 
@@ -30,12 +31,21 @@ protected:
     vec2 m_Size;
     vec4 m_Color;
 
+    Renderable2D() { }
+
 public:
     // Constructor
     Renderable2D(vec3 position, vec2 size, vec4 color)
             : m_Position(position), m_Size(size), m_Color(color)
     {
 
+    }
+
+    virtual ~Renderable2D() { }
+
+    virtual void submit(Renderer2D *renderer) const
+    {
+        renderer->submit(this);
     }
 
     // Inline functions to get the different members
