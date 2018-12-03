@@ -42,6 +42,7 @@
 
 //#define BATCH_RENDERER 1
 #define TEST_50K_SPRITES 0
+#define TEST_LOW_SPRITES 0
 
 static void error_callback(int error, const char* description)
 {
@@ -59,13 +60,9 @@ int main(void)
 
     // Read in the shader
     Shader *s = new Shader("../shaders/basic.vert", "../shaders/basic.frag");
-    Shader *s2 = new Shader("../shaders/basic.vert", "../shaders/basic.frag");
     Shader& shader = *s;
-    Shader& shader2 = *s2;
     shader.enable();
-    shader2.enable();
     shader.setUniform2f("light_pos", vec2(4.5f, 1.5f));
-    shader2.setUniform2f("light_pos", vec2(4.5f, 1.5f));
 
     srand(time(NULL));
     
@@ -78,8 +75,18 @@ int main(void)
             layer.add(new Sprite(x, y, 0.09f, 0.09f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
         }
     }
+#elif TEST_LOW_SPRITES
+
+    for ( float y = -9.0f; y < 9.0f; y+=6)
+    {
+        for ( float x = -16.0f; x < 16.0f; x+=8)
+        {
+            layer.add(new Sprite(x, y, 6.4f, 5.4f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
+        }
+    }
+
 #else
-/*
+
     for ( float y = -9.0f; y < 9.0f; y++)
     {
         for ( float x = -16.0f; x < 16.0f; x++)
@@ -87,9 +94,9 @@ int main(void)
             layer.add(new Sprite(x, y, 0.9f, 0.9f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
         }
     }
-*/
 
-    Group *group = new Group(mat4::translation(vec3(-15.0f, 5.0f, 0.0f)));
+
+/*    Group *group = new Group(mat4::translation(vec3(-15.0f, 5.0f, 0.0f)));
     group->add(new Sprite(0, 0, 6, 3, vec4( 1, 1, 1, 1)));
     
     Group *button = new Group(mat4::translation(vec3(0.5f, 0.5f, 0.0f)));
@@ -97,11 +104,16 @@ int main(void)
     group->add(button);
     layer.add(group);
     //layer.add(new Sprite(0.5f, 0.5f, 5.0f, 2.0f, vec4(1, 0, 1, 1)));
+*/
 #endif
     
-    TileLayer layer2(&shader2);
-    layer2.add(new Sprite(-2, -2, 4, 4, vec4(0.8f, 0.2f, 0.8f, 1.0f)));
-    
+    glActiveTexture(GL_TEXTURE0);
+    Texture texture("../pics/test.png");
+    texture.bind();
+
+    shader.enable();
+    shader.setUniform1i("tex", 0);
+    shader.setUniformMat4("pr_matrix", mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
     
     Timer time;
     float timer = 0;
@@ -115,14 +127,8 @@ int main(void)
         window.getMousePosition(x, y);
         shader.enable();
         shader.setUniform2f("light_pos", vec2((float)(x * 32.0f / 960.0f - 16.0f), (float)(9.0f - y * 18.0f / 540.0f)));
-//        shader.setUniform2f("light_pos", vec2(-8, -3));
-
-        shader2.enable();
-//        shader2.setUniform2f("light_pos", vec2((float)(x * 32.0f / 960.0f - 16.0f), (float)(9.0f - y * 18.0f / 540.0f)));
-        
 
         layer.render();
-//        layer2.render();
         
         window.update();
         frames++;

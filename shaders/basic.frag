@@ -13,7 +13,10 @@ uniform vec2 light_pos;
 //	vec4 color;
 //} fs_in;
 in vec4 vPosition;
+in vec2 vUV;
 in vec4 vColor;
+
+uniform sampler2D tex;
 
 void main()
 {
@@ -23,4 +26,5 @@ void main()
 	//color = fs_in.color * intensity;
 //	color = fColor * intensity;
 	color = vColor * intensity;
+	color = texture(tex, vUV) * intensity;
 }

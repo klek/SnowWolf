@@ -21,6 +21,7 @@ struct VertexData
 {
     vec3 vertex;
 //    vec4 color;
+    vec2 uv;
     unsigned int color;
 };
 
@@ -30,15 +31,26 @@ protected:
     vec3 m_Position;
     vec2 m_Size;
     vec4 m_Color;
+    std::vector<vec2> m_UV;
 
-    Renderable2D() { }
+    Renderable2D() { setUVDefaults(); }
+
+private:
+    void setUVDefaults()
+    {
+        m_UV.push_back(vec2(0, 0));
+        m_UV.push_back(vec2(0, 1));
+        m_UV.push_back(vec2(1, 1));
+        m_UV.push_back(vec2(1, 0));
+    }
+    
 
 public:
     // Constructor
     Renderable2D(vec3 position, vec2 size, vec4 color)
             : m_Position(position), m_Size(size), m_Color(color)
     {
-
+        setUVDefaults();
     }
 
     virtual ~Renderable2D() { }
@@ -52,6 +64,8 @@ public:
     inline const vec3& getPosition() const { return m_Position; }
     inline const vec2& getSize() const { return m_Size; }
     inline const vec4& getColor() const { return m_Color; }
+    inline const std::vector<vec2>& getUV() const { return m_UV; }
+
 };
 
 #endif
