@@ -3,7 +3,7 @@
 SRCDIR="../code"
 SRC="$SRCDIR/glfw_SnowWolf.cpp"
 GRAPHDIR="$SRCDIR/graphics"
-GRAPHSRC="$GRAPHDIR/window.cpp $GRAPHDIR/shader.cpp $GRAPHDIR/simple2drenderer.cpp $GRAPHDIR/batchrenderer2d.cpp $GRAPHDIR/staticSprite.cpp $GRAPHDIR/sprite.cpp"
+GRAPHSRC="$GRAPHDIR/window.cpp $GRAPHDIR/shader.cpp $GRAPHDIR/simple2drenderer.cpp $GRAPHDIR/batchrenderer2d.cpp $GRAPHDIR/staticSprite.cpp $GRAPHDIR/sprite.cpp $GRAPHDIR/texture.cpp"
 BUFFERSDIR="$GRAPHDIR/buffers"
 BUFFERSRC="$BUFFERSDIR/indexBuffer.cpp $BUFFERSDIR/buffer.cpp $BUFFERSDIR/vertexArray.cpp"
 LAYERDIR="$GRAPHDIR/layers"
@@ -20,10 +20,10 @@ pushd ../build
 g++ ../code/sdl_SnowWolf.cpp -o SnowWolf -g `sdl2-config --cflags --libs`
 # Building for debug -O0
 g++ $INCSTRING -o SnowWolf_glfw -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
-    -ldl -lXinerama -lXcursor -lGLEW
+    -ldl -lXinerama -lXcursor -lGLEW -lfreeimage
 # Building for release with -O2
 g++ $INCSTRING -o SnowWolf_glfw_release -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
-    -ldl -lXinerama -lXcursor -lGLEW -O2
+    -ldl -lXinerama -lXcursor -lGLEW -lfreeimage -O2
 #x86_64-w64-mingw32-g++ $MATHSRC $UTILSCR $GRAPHSRC $BUFFERSRC $SRC -o SnowWolf_glfw.exe -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread \
 #    -ldl -lXinerama -lXcursor -lGLEW
 popd

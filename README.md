@@ -8,3 +8,6 @@ http://stackoverflow.com/questions/17768008/how-to-build-install-glfw-3-and-use-
 
 Added GLEW to be able to use all versions of OpenGL. Basically followed the instructions from GLEW homepage
 http://glew.sourceforge.net/install.html
+
+Added FreeImage library to be able to read in image files for use as textures. Currently this is
+installed on the system via "aptitude install libfreeimage3 libfreeimage-dev" and refered to in the build.sh

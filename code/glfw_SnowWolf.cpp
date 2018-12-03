@@ -13,6 +13,9 @@
 #include <stdio.h>
 #include <string.h>
 
+// Including library for reading simple image-files
+#include <FreeImage.h>
+
 #include "graphics/window.h"
 #include "graphics/shader.h"
 #include "maths/math.h"
@@ -32,6 +35,8 @@
 
 #include "graphics/layers/tileLayer.h"
 #include "graphics/layers/group.h"
+
+#include "graphics/texture.h"
 
 #include <time.h>
 
