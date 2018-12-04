@@ -47,6 +47,7 @@ void Layer::render()
 
     m_Renderer->end();
     // Flush everything
+        
     m_Renderer->flush();
 //    m_Shader->disable();
 }

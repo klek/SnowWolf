@@ -67,12 +67,27 @@ int main(void)
     srand(time(NULL));
     
     TileLayer layer(&shader);
+
+    Texture *textures[] =
+        {
+            new Texture("../pics/test.png"),
+            new Texture("../pics/testBorder.png"),
+            new Texture("../pics/test.png")
+        };
+
 #if TEST_50K_SPRITES
     for ( float y = -9.0f; y < 9.0f; y+= 0.1f)
     {
         for ( float x = -16.0f; x < 16.0f; x += 0.1f)
         {
-            layer.add(new Sprite(x, y, 0.09f, 0.09f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
+            if ( rand() % 4 == 0 )
+            {
+                layer.add(new Sprite(x, y, 0.09f, 0.09f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
+            }
+            else
+            {
+                layer.add(new Sprite(x, y, 0.09f, 0.09f, textures[rand() % 3]));
+            }
         }
     }
 #elif TEST_LOW_SPRITES
@@ -81,7 +96,14 @@ int main(void)
     {
         for ( float x = -16.0f; x < 16.0f; x+=8)
         {
-            layer.add(new Sprite(x, y, 6.4f, 5.4f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
+            if ( rand() % 4 == 0 )
+            {
+                layer.add(new Sprite(x, y, 6.4f, 5.4f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
+            }
+            else
+            {
+                layer.add(new Sprite(x, y, 6.4f, 5.4f, textures[rand() % 3]));                
+            }
         }
     }
 
@@ -91,10 +113,17 @@ int main(void)
     {
         for ( float x = -16.0f; x < 16.0f; x++)
         {
-            layer.add(new Sprite(x, y, 0.9f, 0.9f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
+            if ( rand() % 4 == 0 )
+            {
+                layer.add(new Sprite(x, y, 0.9f, 0.9f, vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
+            }
+            else
+            {
+                layer.add(new Sprite(x, y, 0.9f, 0.9f, textures[rand() % 3]));
+//                layer.add(new Sprite(x, y, 0.9f, 0.9f, new Texture("../pics/test.png")));                
+            }
         }
     }
-
 
 /*    Group *group = new Group(mat4::translation(vec3(-15.0f, 5.0f, 0.0f)));
     group->add(new Sprite(0, 0, 6, 3, vec4( 1, 1, 1, 1)));
@@ -107,18 +136,19 @@ int main(void)
 */
 #endif
     
-    glActiveTexture(GL_TEXTURE0);
-    Texture texture("../pics/test.png");
-    texture.bind();
-
+    GLint texIDs[] =
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+        };
+    
     shader.enable();
-    shader.setUniform1i("tex", 0);
+    shader.setUniform1iv("textures", texIDs, 10);
     shader.setUniformMat4("pr_matrix", mat4::orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
     
     Timer time;
     float timer = 0;
     unsigned int frames = 0;
-    
+
     // Main loop 
     while ( !window.closed() )
     {
@@ -126,10 +156,11 @@ int main(void)
         double x, y;
         window.getMousePosition(x, y);
         shader.enable();
+        
         shader.setUniform2f("light_pos", vec2((float)(x * 32.0f / 960.0f - 16.0f), (float)(9.0f - y * 18.0f / 540.0f)));
 
         layer.render();
-        
+
         window.update();
         frames++;
         if ( time.elapsed() - timer > 1.0f )
@@ -140,5 +171,9 @@ int main(void)
         }
     }
 
+//    for ( int i = 0; i < 3; i++ )
+//    {
+//        delete textures[i];
+//    }
     return 0;
 }

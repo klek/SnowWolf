@@ -14,6 +14,7 @@
 #include "buffers/vertexArray.h"
 #include "shader.h"
 #include "renderer2d.h"
+#include "texture.h"
 
 #include "../maths/math.h"
 
@@ -22,6 +23,7 @@ struct VertexData
     vec3 vertex;
 //    vec4 color;
     vec2 uv;
+    float tid;
     unsigned int color;
 };
 
@@ -32,8 +34,9 @@ protected:
     vec2 m_Size;
     vec4 m_Color;
     std::vector<vec2> m_UV;
+    Texture *m_Texture;
 
-    Renderable2D() { setUVDefaults(); }
+    Renderable2D() : m_Texture(nullptr) { setUVDefaults(); }
 
 private:
     void setUVDefaults()
@@ -48,7 +51,7 @@ private:
 public:
     // Constructor
     Renderable2D(vec3 position, vec2 size, vec4 color)
-            : m_Position(position), m_Size(size), m_Color(color)
+            : m_Position(position), m_Size(size), m_Color(color), m_Texture(nullptr)
     {
         setUVDefaults();
     }
@@ -65,7 +68,7 @@ public:
     inline const vec2& getSize() const { return m_Size; }
     inline const vec4& getColor() const { return m_Color; }
     inline const std::vector<vec2>& getUV() const { return m_UV; }
-
+    inline const GLuint getTID() const { return m_Texture == nullptr ? 0 : m_Texture->getID(); }
 };
 
 #endif
